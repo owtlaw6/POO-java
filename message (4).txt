@@ -1,0 +1,191 @@
+package exersare;
+/**
+ PB1 */
+
+//abstract class A {
+//	public int proc(A p) {
+//		return 5;
+//	}
+//}
+//
+//class B extends A {
+//	public int proc(C p) {
+//		return 21;
+//	}
+//}
+//
+//class C extends B {
+//	public int proc(B p) {
+//		return 45;
+//	}
+//}
+//
+//public class Exersare {
+//	public static void main(String[] args) {
+//	A x = new B();
+//	B y = new C();
+//	B z = new C();
+//	System.out.println(x.proc(z) + " " + y.proc(z));
+//}
+//}
+
+/**
+ PB2 */
+
+//class X {
+//	protected int v=0;
+//	public X() {
+//		v += 32;
+//	}
+//}
+//
+//class Y extends X {
+//	public Y() {
+//		v += 43;
+//	}
+//	public int getV() {
+//		return v;
+//	}
+//}
+//
+//class Z extends Y {
+//	public Z() {
+//		v += 61;
+//	}
+//}
+//
+//public class Exersare {
+//	public static void main(String[] args) {
+//	X x = new Z();
+//	Y y = new Y();
+//	Z z = new Z();
+//	System.out.println(y.getV());
+//	}
+//}
+
+/**
+  PB3 */
+
+//class X {
+//	protected int v=0;
+//	public X() {
+//		v += 43;
+//	}
+//}
+//
+//class Y extends X {
+//	public Y() {
+//		v -= 24;
+//	}
+//	public int getV() {
+//		return v;
+//	}
+//}
+//
+//class Z extends Y {
+//	public Z() {
+//		v += 100;
+//	}
+//	
+//}
+//
+//public class Exersare {
+//	public static void main(String[] args) {
+//		X x = new Z();
+//		Y y = new Y();
+//		Z z = new Z();
+//		System.out.println(y.getV());
+//	}
+//}
+
+
+/**
+  PB4 */
+
+//abstract class A {
+//	public int proc(A p) {
+//		return 98;
+//	}
+//}
+//
+//class B extends A {
+//	public int proc(A p) {
+//		return 17;
+//	}
+//}
+//
+//class C extends B {
+//	public int proc(C p) {
+//		return 65;
+//	}
+//}
+//
+//public class Exersare {
+//	public static void main(String[] args) {
+//		C x = new C();
+//		A y = new B();
+//		C z = new C();
+//		System.out.println(y.proc(x) + " " + z.proc(x));
+//	}
+//}
+
+
+/**
+  PB5 */
+
+//abstract class A {
+//	public int proc(B p) {
+//		return 5;
+//	}
+//}
+//
+//class B extends A {
+//	public int proc(C p) {
+//		return 21;
+//	}
+//}
+//
+//class C extends B {
+//	public int proc(C p) {
+//		return 45;
+//	}
+//}
+//
+//public class Exersare {
+//	public static void main(String[] args) {
+//		A x = new C();
+//		C y = new C();
+//		B z = new B();
+//		System.out.println(x.proc(z) + " " + y.proc(z));
+//	}
+//}
+
+/**
+  PB6 */
+
+//abstract class A {
+//	public int proc(A p) {
+//		return 20;
+//	}
+//}
+//
+//class B extends A {
+//	public int proc(A p) {
+//		return 100;
+//	}
+//}
+//
+//class C extends B {
+//	public int proc(C p) {
+//		return 75;
+//	}
+//}
+//
+//public class Exersare {
+//	public static void main(String[] args) {
+//		C x = new C();
+//		A y = new C();
+//		C z = new C();
+//		System.out.println(y.proc(x) + " " +z.proc(x));
+//	}
+//}

@@ -1,0 +1,28 @@
+Cu ajutorul acestui exercițiu vom încerca sa calculăm memoria totală și viteza de transfer a datelor dintr-un server. Un Server dispune de un număr de 128 de sloturi libere în care pot fi puse diferite tipuri de memorii RAM. În momentul de față dispunem de 2 tipuri de memorii: DDRAM1, DDRAM2. Orice memorie RAM are o metodă getSpeed ce returnează un double (numărul de octeti/secunda ce pot fi transferați) specific fiecărui tip de memorie si o metoda getTotalMemory ce returneaza un int reprezentand capacitatea memoriei (in octeti). Tipurile concrete de memorii au următoarele particularitati si implementare:
+
+
+DDRAM1: e caracterizat de un int ce reprezinta spatiul total de stocare (in octeti)  setat prin constructor. Acest tip de memorie poate realiza urmatoarele operatii:
+
+getTotalMemory: returneaza spatiul total de stocare
+
+getSpeed: returneaza viteza de transfer calculata ca si spatiuTotalDeStocare / 100.0 * 1.5 + 1
+
+DDRAM2: e caracterizat de un int ce reprezinta spatiul total de stocare (in octeti) setat prin constructor. Acest tip de memorie poate realiza urmatoarele operatii:
+
+getTotalMemory: returneaza spatiul total de stocare
+
+getSpeed: returneaza viteza de transfer calculata ca si spatiuTotalDeStocare / 100.0 * 3.5
+
+
+Un Server are urmatoarele atribute si poate realiza urmatoarele operatii:
+
+un vector de 128 de referinte la memorii RAM de orice fel 
+
+addMemory: ce introduce memoria RAM data ca parametru in vectorul anterior (daca mai este loc)
+
+getMemoryUsage: aceasta metoda va primi ca parametru un int ce va reprezenta totalul de date (in octeti) ce se doreste a fi transferat si va returna un double reprezentand procentul de memorie utilizata pentru a realiza transferul (adica  dateTransferate  / totalMemorieServer * 100).
+
+getMemoryBenchmark: aceasta metoda va primi ca parametru un intreg ce va reprezenta totalul de date (in octeti) ce se doreste a fi transferat si va returna durata de transfer a datelor. Se considera ca datele se introduc succesiv incepand cu prima memorie, apoi in a doua etc, pana cand toti octetii au fost introdusi. Daca datele nu incap se returneaza -1.
+
+
+Se va implementa și o metodă main într-o clasă Source în care se va testa sistemul descris anterior astfel: se vor crea 2 servere ambele avand 3 memorii RAM de diferite tipuri. Se va afisa pe ecran rezultatul operatiei getMemoryBenchmark, getMemoryUsage pe ambele servere.

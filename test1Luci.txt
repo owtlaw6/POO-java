@@ -1,0 +1,91 @@
+class Fisier{
+    private String nume, continut;
+
+    public Fisier(String n, String c){
+        nume = n;
+        continut = c;
+    }
+    public Fisier copiaza(Fisier f){
+        Fisier copie = new Fisier(f.nume + "_copy", f.continut);
+        return copie;
+    }
+    public String toString(){
+        return this.nume;
+    }
+    //public String getNume(){
+      //  return this.nume;
+    //}
+    //public String getContinut(){
+      //  return this.continut;
+    //}
+}
+
+class Folder{
+    private Fisier[] fisiere = new Fisier[64];
+    private int nr_fisiere = 0;
+    private String nume;
+    
+    public Folder(String s){
+        nume = s;
+    }
+    public void creazaFisier(String nume, String continut){
+        if (nr_fisiere == fisiere.length){
+            System.out.println("Nu mai este loc in folderul " + this.nume + " pentru alte fisiere");
+            return;
+        }
+        boolean ok = false;
+        for(int i = 0; i < nr_fisiere; ++i){
+            if(nume.equals(fisiere[i].toString())){
+                ok = true;
+                break;
+            }
+        }
+        if (ok){
+            System.out.println("Fisierul " + nume + " exista deja in folderul " + this.nume);
+            return;
+        }
+        Fisier fis = new Fisier(nume, continut);
+        fisiere[nr_fisiere] = fis;
+        nr_fisiere++;
+    }
+    public String toString(){
+        String s = this.nume + ": ";
+        for (int i = 0; i < nr_fisiere; ++i){
+            s = s + fisiere[i].toString() + ", ";
+        }
+        s = s.substring(0, s.length() - 2);
+        return s;
+    }
+}
+
+class Source{
+    public static void main(String argv[]){
+        Folder f = new Folder("FOLDER1");
+        Folder ff = new Folder("FOLDER2");
+        Folder fff = new Folder("FOLDER3");
+        
+        f.creazaFisier("FISIER1", "ceva1");
+        f.creazaFisier("FISIER2", "ceva2");
+        
+        ff.creazaFisier("FISIER10", "ceva10");
+        ff.creazaFisier("FISIER11", "ceva11");
+        ff.creazaFisier("FISIER12", "ceva12");
+        ff.creazaFisier("FISIER10", "altceva");
+        
+        System.out.println(f);
+        System.out.println(ff);
+        System.out.println(fff);
+        
+        System.out.println();
+        
+        Fisier fis = new Fisier("da", "da");
+        Fisier fiss = new Fisier("", "");
+        fiss = fiss.copiaza(fis);
+        System.out.println(fis);
+        System.out.println(fiss);
+        
+    }
+} 
+
+
+

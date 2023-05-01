@@ -1,0 +1,130 @@
+abstract class Produs
+{
+    private String nume;
+    private double pret;
+    public Produs(String nume, double pret)
+    {
+        this.nume = nume;
+        this.pret = pret;
+    }
+    public abstract void aplicaReducere(double procentaj);
+    public double getPret()
+    {
+        return pret;
+    }
+    public String getNume()
+    {
+        return nume;
+    }
+    public void setPret(double pret_nou)
+    {
+        pret = pret_nou;
+    }
+}
+
+class ProdusImbracaminte extends Produs
+{
+    private String material;
+    public ProdusImbracaminte(String nume, double pret, String material)
+    {
+        super(nume, pret);
+        this.material = material;
+    }
+    double pret_auxiliar;
+    public void aplicaReducere(double procentaj)
+    {
+        pret_auxiliar = getPret();
+        if(procentaj <= 0.95)
+            pret_auxiliar = pret_auxiliar - pret_auxiliar*procentaj;
+        else
+            pret_auxiliar = pret_auxiliar - pret_auxiliar*0.95;
+        setPret(pret_auxiliar);
+    }
+    public String toString()
+    {
+        return getNume() + " in valoare de " + getPret() + ", din " + material + "\n";
+    }
+}
+
+class ProdusElectronic extends Produs
+{
+    private boolean resigilat;
+    public ProdusElectronic(String nume, double pret, boolean resigilat)
+    {
+        super(nume,pret);
+        this.resigilat = resigilat;
+    }
+    double pret_aux;
+    public void aplicaReducere(double procentaj)
+    {
+        pret_aux = getPret();
+        if(procentaj+0.2 <= 0.95)
+            pret_aux = pret_aux - pret_aux*(procentaj + 0.2);
+        else
+            pret_aux = pret_aux - pret_aux*0.95;
+        setPret(pret_aux);
+    }
+    public String toString()
+    {
+        return getNume() + " in valoare de " + getPret() + ", resigilat: " + resigilat + "\n";
+    }
+}
+
+class MagazinOnline
+{
+    private Produs[] produse = new Produs[1024];
+    int contor=0;
+    public void adaugaProdus(Produs p)
+    {
+        if(contor<1024)
+        {
+            produse[contor] = p;
+            contor++;
+        }
+        else
+            System.out.println("Nu mai este loc in vectorul de produse!");
+    }
+    double auxiliar;
+    public void aplicaReducereBlackFriday(double procentaj)
+    {
+        int i;
+        for(i=0; i<contor; i++)
+        {
+            auxiliar = produse[i].getPret();
+            auxiliar = auxiliar - auxiliar*procentaj;
+            produse[i].setPret(auxiliar);
+        }
+    }
+    public String toString()
+    {
+        int i;
+        String sir = "";
+        for(i=0; i<contor; i++)
+            sir = sir + produse[i].toString();
+        return sir;
+    }
+}
+
+public class Test2
+{
+    public static void main(String[] args)
+    {
+        MagazinOnline m = new MagazinOnline();
+        Produs p1 = new ProdusImbracaminte("Geaca iarna Tomy Hilfiger", 700, "Fas");
+        Produs p2 = new ProdusImbracaminte("Tricou Adidas", 380, "Bumbac");
+        Produs p3 = new ProdusElectronic("Consola Playstation 5", 2500, false);
+        m.adaugaProdus(p1); m.adaugaProdus(p2); m.adaugaProdus(p3);
+        System.out.println("\tMagazin:\n" + m);
+        
+        System.out.println("\n\tDupa reducere de 0.025, Geaca Tommy este:");
+        p1.aplicaReducere(0.025);
+        System.out.println(p1);
+        
+        System.out.println("\n\tDupa reducere de 0.005, consola PS este:");
+        p3.aplicaReducere(0.005);
+        System.out.println(p3);
+        
+        m.aplicaReducereBlackFriday(0.4);
+        System.out.println("\n\tDupa reducerea de BF de 0.4:\n" + m);
+    }
+}

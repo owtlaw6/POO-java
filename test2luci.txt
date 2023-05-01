@@ -1,0 +1,128 @@
+import java.util.Random;
+
+abstract class Intreprindere{
+    private String nume;
+    protected double capital;
+    
+    public Intreprindere(String n, double c){
+        this.nume = n;
+        this.capital = c;
+    }
+    public abstract void investeste(int nr);
+    public String toString(){
+        String s = nume + " -> capitalul social: " + capital;
+        return s;
+    }
+}
+
+class SocietateRaspundereLimitata extends Intreprindere{
+    public SocietateRaspundereLimitata(String n){
+        super(n, 0);
+    }
+    
+    public void investeste(int nr){
+        Random r = new Random();
+        double x;
+        x = r.nextDouble();
+        if (x < 0.5){
+            System.out.println("investitie esuata");
+        }
+        else {
+            this.capital += 2 * nr;
+        }
+    }
+    public String toString(){
+        String s = "SocietateRaspundereLimitata -> " + super.toString();
+        return s;
+    }
+}
+
+class SocietateActiuni extends Intreprindere{
+    private int nr_actionari;
+    
+    public SocietateActiuni(String n, double c, int nr){
+        super(n, c);
+        nr_actionari = nr;
+    }
+    
+    public void investeste(int nr){
+        Random r = new Random();
+        double x;
+        x = r.nextDouble();
+        if (x < 0.5){
+            System.out.println("investitie esuata");
+        }
+        else {
+            if (nr_actionari != 0)
+                this.capital += 10 * nr / nr_actionari;
+            else System.out.println("Eroare, division by zero, avem 0 actionari");
+        }
+    }
+    public String toString(){
+        String s = "SocietateActiuni -> nr actionari: " + nr_actionari + " -> " + super.toString();
+        return s;
+    }
+}
+
+class Piata{
+    private String nume;
+    private Intreprindere intreprinderi[];
+    
+    public Piata(String s, Intreprindere v[]){
+        this.nume = s;
+        intreprinderi = new Intreprindere[v.length];
+        intreprinderi = v;
+    }
+    public void investesteSuma(int index, int suma){
+        index = index % intreprinderi.length;
+        if(index >= intreprinderi.length || index < 0)
+            System.out.println("Eroare, index out of bounds, " + 
+                    "suma nu se poate investi pentru intreprinderea ceruta");
+        else intreprinderi[index].investeste(suma);
+    }
+    public String toString(){
+        String s = nume + ": ";
+        for(int i = 0; i < intreprinderi.length; ++i){
+            if(intreprinderi[i] != null)
+                s += intreprinderi[i].toString() + "\n";
+            else System.out.println("Eroare, null pointer exception");
+        }
+        return s;
+    }
+}
+
+class Main{
+    public static void main(String argv[]){
+        Piata p1, p2;
+        Intreprindere i1[] = new Intreprindere[]{new SocietateRaspundereLimitata("SRL11"), 
+                             new SocietateRaspundereLimitata("SRL12"), 
+                             new SocietateActiuni("SA11", 2, 2)};
+        Intreprindere i2[] = new Intreprindere[]{new SocietateActiuni("SA21", 2, 2), 
+                             new SocietateRaspundereLimitata("SRL21")};
+        p1 = new Piata("Piata 1", i1);
+        p2 = new Piata("Piata 2", i2);
+        
+        System.out.println(p1);
+        p1.investesteSuma(2, 10);
+        System.out.println(p1);
+        System.out.println("\n");
+        System.out.println(p2);
+        p2.investesteSuma(1, 10);
+        System.out.println(p2);
+        
+        /*System.out.println("\n");
+        System.out.println(p1);
+        p1.investesteSuma(3, 10);
+        System.out.println(p1);
+        System.out.println("\n");
+        System.out.println(p2);
+        p2.investesteSuma(-1, 10);
+        System.out.println(p2);*/
+    }
+}
+
+
+
+
+
+

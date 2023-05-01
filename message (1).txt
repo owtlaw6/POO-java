@@ -1,0 +1,173 @@
+package sapt9;
+
+interface Risky {
+	public double getRisky();
+}
+
+abstract class Project implements Risky {
+	private String titlu;
+	private String obiectiv;
+	private long fonduri;
+	protected Member manager;
+	protected int nr_membri = 0;
+	protected Member[] mem;
+	
+	public Project(Member manager, String titlu, String obiectiv, long fonduri) {
+		this.manager = manager;
+		this.titlu = titlu;
+		this.obiectiv = obiectiv;
+		this.fonduri = fonduri;
+	}
+	public long getFonduri() {
+		return this.fonduri;
+	}
+	public abstract void addMember(Member m);
+	public int getNrMembri() {
+		return this.nr_membri;
+	}
+	public String getTitlu() {
+		return this.titlu;
+	}
+}
+
+class Member {
+	private int varsta;
+	private String nume;
+	
+	public Member(int varsta, String nume) {
+		this.varsta = varsta;
+		this.nume = nume;
+	}
+	public int getVarsta() {
+		return this.varsta;
+	}
+	public String getNume() {
+		return this.nume;
+	}
+}
+
+abstract class ComercialeSiMilitare extends Project{
+	private String deadline;
+	private int maxim = 15;
+	
+	public ComercialeSiMilitare(Member manager, String titlu, String obiectiv, long fonduri, String deadline) {
+		super(manager,titlu, obiectiv, fonduri);
+		this.deadline = deadline;
+	}
+	public void addMember(Member m) {
+		if(nr_membri == maxim) 
+			System.out.println("Nu mai pot fi adaugati membri\n");
+		else {
+			Member[] aux = new Member [nr_membri +1];
+			for(int i=0; i<nr_membri; i++) {
+				aux[i] = mem[i];
+			}
+			aux[nr_membri] = m;
+			mem = aux;
+			this.nr_membri++;
+		}
+	}
+}
+
+class Comerciale extends ComercialeSiMilitare {
+	private long fonduri_marketing;
+	private int nr_echipe;
+	
+	public Comerciale(Member manager, String titlu, String obiectiv, long fonduri, String deadline, int nr_echipe) {
+		super(manager, titlu, obiectiv, fonduri, deadline);
+		this.fonduri_marketing = fonduri/2;
+		this.nr_echipe = nr_echipe;
+	}
+	public double getRisky() {
+		double r = this.nr_echipe*3 / this.getNrMembri() / this.getFonduri();
+		return r;
+	}
+	
+}
+
+class Militare extends ComercialeSiMilitare{
+	private String parola;
+	
+	public Militare(Member manager, String titlu, String obiectiv, long fonduri, String deadline, String parola) {
+		super(manager, titlu, obiectiv, fonduri, deadline);
+		this.parola = parola;
+	}
+	public double getRisky() {
+		double r = this.getNrMembri() / parola.length() / this.getFonduri();
+		return r;
+	}
+}
+
+class OpenSource extends Project {
+	private String mailing_list;
+	
+	public OpenSource(Member manager, String titlu, String obiectiv, long fonduri, String mailing_list) {
+		super(manager, titlu, obiectiv, fonduri);
+		this.mailing_list = mailing_list;
+	}
+	public void addMember(Member m) {
+		Member[] aux = new Member [nr_membri +1];
+		for(int i=0; i<nr_membri; i++) {
+			aux[i] = mem[i];
+		}
+		aux[nr_membri] = m;
+		mem = aux;
+		this.nr_membri ++;
+	}
+	public double getRisky() {
+		double r = this.getNrMembri() / this.getFonduri();
+		return r;
+	}
+}
+
+public class InvestmentCompany {
+	private static Project[] lista_proiecte;
+	private static int nr_proiecte;
+	
+	public static void addProject(Project p) {
+		Project[] aux = new Project [nr_proiecte +1];
+		for(int i=0; i<nr_proiecte; i++) {
+			aux[i] = lista_proiecte[i];
+		}
+		aux[nr_proiecte] = p;
+		lista_proiecte = aux;
+		nr_proiecte ++;
+	}
+	
+	public static Project getBestInvestment() {
+		if(nr_proiecte == 0) {
+			System.out.println("Nu a fost adaugat niciun proiect");
+			return null;
+		}
+		Project aux = lista_proiecte[0];
+		for(int i=0; i<nr_proiecte; i++) {
+			if(lista_proiecte[i].getRisky() < aux.getRisky()) {
+				aux = lista_proiecte[i];
+			}
+		}
+		return aux;
+	}
+	
+	public static void main(String[] args) {
+		Member m1 = new Member(18,"Andrei");
+		Member m2 = new Member(20,"Gheorghe");
+		Member m3 = new Member(35,"Mihai");
+		Member m4 = new Member(24,"Maria");
+		Member m5 = new Member(26,"Andra");
+		Member m6 = new Member(23,"Costel");
+		Project p1 = new Militare(m1, "Construirea unei rachete", "Lansarea unei rachete", 1500000, "11 Decembrie 2021", "P45OjG");
+		Project p2 = new Comerciale(m2, "Comercial1", "orice", 500000, "12 Decembrie 2021", 4);
+		Project p3 = new OpenSource(m3, "OpenSource1", "orice2", 900000, "ceva123");
+		
+		addProject(p1);
+		addProject(p2);
+		addProject(p3);
+		p1.addMember(m4);
+		p2.addMember(m5);
+		p3.addMember(m6);
+		Project best = getBestInvestment();
+		
+		System.out.println("Titlul celui mai bun proiect este: " + best.getTitlu());
+	}
+
+}
